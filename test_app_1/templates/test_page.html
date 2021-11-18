@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block navbar %}
+    {% include "base/navbar.html" with active_page="dashboard" %}
+{% endblock %}
+
+{% block header %}
+    {% trans "Overview of FBA Send in Suggestions by Marketplace and Warehouse" %}
+{% endblock header %}
+
+{% block extrahead %}
+{% endblock extrahead %}
+
+{% block content %}
+    {% load i18n %}
+    {% load static %}
+
+    <table id="dt_sugg_fba_send_ins" class="table table-hover p-0 m-0" width="100%">
+        <thead>
+        <tr>
+            <th class="warehouse">{% trans "Warehouse" %}</th>
+            <th class="text-center amazon_de"><img data-mp="amazon_de" src="{% static 'flag_icons/32/Germany.png' %}"
+                                                   title="{% trans 'Germany' %}" alt="{% trans 'Germany' %}"></th>
+            <th class="text-center amazon_fr"><img data-mp="amazon_fr" src="{% static 'flag_icons/32/France.png' %}"
+                                                   title="{% trans 'France' %}" alt="{% trans 'France' %}"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    {#    Please display results here#}
+
+{% endblock content %}
+
+{% block extra_javascript %}
+    <script>
+      var csrfmiddlewaretoken = "{{csrf_token}}"
+      var ajax_get_table_data_url = "{% url 'test_app_1:ajax_get_table_data' %}";
+
+      $(document).ready(function () {
+          init_dt_sugg_fba_send_ins();
+        });
+
+
+      function init_dt_sugg_fba_send_ins() {
+        columns = [
+          {"data": "warehouse", "name": "warehouse", className: "warehouse"}
+        ]
+      $.merge(columns, [
+        {"data": "amazon_de", "name": "amazon_de", className: "amazon_de"},
+        {"data": "amazon_fr", "name": "amazon_fr", className: "amazon_fr"},
+      ]);
+
+        $("#dt_sugg_fba_send_ins").DataTable({
+          "ajax": {
+            url: ajax_get_table_data_url,
+            method: "POST",
+            dataType: 'json',
+            data: {
+              "action": "dt_sugg_fba_send_ins",
+              "csrfmiddlewaretoken": csrfmiddlewaretoken,
+            },
+
+          },
+          "columns": columns,
+
+          "columnDefs": [
+            {
+              "targets": [
+                "amazon_de",
+                "amazon_fr",
+              ],
+              "orderable": false,
+              "render": function (data, type, row, meta) {
+                var mp = columns[meta.col]["name"]
+                var div_c = $(`<div class="badge py-2 d-flex justify-content-center"
+                            style="cursor: pointer; font-size: large"
+                            onclick="" >
+                          </div>`)
+
+                if (data === 0) {
+                  div_c.addClass("badge-light")
+                } else {
+                  div_c.addClass("badge-warning")
+                }
+                div_c.append(`<span >No. of Ctns ${data}</span>`)
+                return div_c.prop('outerHTML');
+              },
+            },
+          ],
+          "lengthChange": false,
+          "bPaginate": false,
+          "searching": false,
+          "info": false,
+          "bFilter": false
+
+        });
+      }
+
+    </script>
+
+{% endblock extra_javascript %}
+
+

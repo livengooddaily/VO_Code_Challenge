@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<div id="header_cache_button_container" class="d-flex justify-content-center align-items-center">
+    {% if cache_update_status == "completed" or cache_update_status == "never" %}
+        <button class="btn btn-outline-light cache_update_button text-dark"
+                data-toggle="tooltip"
+                data-html="true"
+                title="{% trans 'The data on this page was updated:' %} {{ min_ago_updated }}<br>
+                   {% trans 'The next automatic update is scheduled in ' %}{{ min_to_next_planned_update }} min.<br><br>
+                   {% trans 'Click this buttons in order to initiate the update right now.' %}
+                ">
+            <i class="fa fa-sync"></i><span id="min_ago_updated" class="ml-1">{{ min_ago_updated }}</span>
+        </button>
+    {% elif cache_update_status == "running" %}
+        <button class="btn btn-outline-light cache_update_button"
+                data-toggle="tooltip"
+                data-html="true"
+                title="{% trans 'The data is currently being updated..' %}">
+            <div class="spinner-border text-dark" role="status"></div>
+        </button>
+    {% else %}
+        <button class="btn btn-outline-danger cache_update_button"
+                data-toggle="tooltip"
+                data-html="true"
+                title="{% trans 'Error. There was an issue with updating the data on this page!' %}">
+            <i class="fa fa-exclamation-triangle"></i>
+        </button>
+    {% endif %}
+</div>

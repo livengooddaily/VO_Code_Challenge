@@ -1,0 +1,103 @@
+
+/* Pagination Fix - Start*/
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border: 0px;
+}
+/* Pagination Fix - End*/
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+table.dataTable tr.dtrg-group td {
+    background-color: #5d7c9e17;
+    box-shadow: 0 0.125rem 0.25rem 0.125rem rgba(58, 59, 69, 0.05) !important;
+}
+
+
+table.dataTable tbody td.select-checkbox,
+table.dataTable tbody th.select-checkbox {
+  position: relative;
+}
+
+table.dataTable tbody td.select-checkbox:before,
+table.dataTable tbody td.select-checkbox:after,
+table.dataTable tbody th.select-checkbox:before,
+table.dataTable tbody th.select-checkbox:after {
+  display: block;
+  position: absolute;
+  /*top: 1.0em;*/
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+    cursor: pointer;
+}
+
+table.dataTable tbody td.select-checkbox:before,
+table.dataTable tbody th.select-checkbox:before {
+  content: ' ';
+  margin-top: -8px;
+  margin-left: -6px;
+    vertical-align: middle;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+table.dataTable tr.selected td.select-checkbox:after,
+table.dataTable tr.selected th.select-checkbox:after {
+  content: '\2713';
+  margin-top: -11px;
+  margin-left: -5px;
+  text-align: center;
+  font-weight: bolder;
+  text-shadow: none;
+    color: #4b4b4b;
+  /*{#text-shadow: 1px 1px #B0BED9, -1px -1px #B0BED9, 1px -1px #B0BED9, -1px 1px #B0BED9;#}*/
+}
+
+
+table.dataTable tbody > tr.selected,
+table.dataTable tbody > tr > .selected {
+  /*background-color: #B0BED9;*/
+  /*  font-weight: bolder;*/
+    background: rgba(201, 226, 255, 0.61);
+
+  transform: none;
+  -webkit-transform: none;
+  -moz-transform: none;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+table.dataTable tbody > tr.selected > td:first-child {
+  /*background-color: #B0BED9;*/
+    border-left-width: 4px;
+    border-left-color: var(--primary);
+    border-left-style: solid;
+}
+
+
+
+table.dataTable.stripe tbody > tr.odd.selected,
+table.dataTable.stripe tbody > tr.odd > .selected, table.dataTable.display tbody > tr.odd.selected,
+table.dataTable.display tbody > tr.odd > .selected {
+  /*background-color: #acbad4;*/
+}
+table.dataTable.hover tbody > tr.selected:hover,
+table.dataTable.hover tbody > tr > .selected:hover, table.dataTable.display tbody > tr.selected:hover,
+table.dataTable.display tbody > tr > .selected:hover {
+  /*background-color: #aab7d1;*/
+}
+
+
+

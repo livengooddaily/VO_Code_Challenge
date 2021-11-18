@@ -1,0 +1,126 @@
+{% load i18n static %}
+
+<nav class="navbar navbar-expand-lg bg-navbar sidebar accordion toggled hidden-sm p-0 navbar-light ">
+    <div class="collapse navbar-collapse bg-navbar" id="navbarToggler" style="width: 5.5rem; align-items: flex-start;">
+
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0 bg-navbar toggled sidebar sidebar-dark">
+
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <div class="">
+    {#            <i class="fas fa-boxes"></i>#}
+    {#            <div style="font-size: 2.2em">VO</div>#}
+                <img class="vo_logo" width="60px" src="{% static 'main/vo_logo_small.png' %}" alt="">
+            </div>
+            <div class="sidebar-brand-text mx-3">VentoryOne</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <li title="{% trans "Dashboard" %}" class="nav-item {% if active_page == "dashboard" %}active font-weight-bold{% endif %}">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>{% trans "Dashboard" %}</span></a>
+        </li>
+
+        <hr class="sidebar-divider my-0">
+
+        <li title="{% trans "Current Stock" %}"
+        class="nav-item {% if active_page == "current_stock_overview" %}active font-weight-bold{% endif %}">
+        <a class="nav-link ini-loader" href="#">
+            <i class="fas fa-fw fa-warehouse "></i> <span>{% trans "Current Stock" %}</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li title="{% trans "Purchase Orders" %}"
+            class="nav-item {% if active_page == "purchase_orders" %}active font-weight-bold{% endif %}">
+            <a class="nav-link ini-loader" href="#">
+                <i class="fas fa-fw fa-ship "></i> <span>{% trans "Purchase Orders" context "Dashboard" %}</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li title="{% trans "FBA Send-Ins" %}" class="nav-item {% if active_page == "fba_send_ins" %}active font-weight-bold{% endif %}">
+            <a class="nav-link ini-loader" href="#">
+                <i class="fas fa-fw fa-dolly"></i> <span>{% trans "FBA<br>Send-Ins" context "Dashboard"%}</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li title="{% trans "Warehouse Manager" %}"
+            class="nav-item {% if active_page == "warehouse_management" %}active font-weight-bold{% endif %}">
+            <a class="nav-link ini-loader" href="#">
+                <i class="fas fa-fw fa-pallet "></i> <span>{% trans "Warehouse Manager" context "Dashboard" %}</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li title="{% trans "SKU Database" %}"  class="nav-item {% if active_page == "sku_database" %}active font-weight-bold{% endif %}">
+            <a class="nav-link ini-loader" href="#">
+                <i class="fas fa-fw fa-database"></i> <span>{% trans "SKU Database" %}</span>
+            </a>
+        </li>
+
+
+            <li style="margin-top: auto; margin-bottom: -2px;" title="{% trans "Help Center" %}"  class="nav-item {% if active_page == "sku_database" %}active font-weight-bold{% endif %}">
+                <a class="nav-link ini-loader" href="https://intercom.help/ventoryone/de/" target="_blank">
+                    <i class="fas fa-fw fa-question-circle"></i> <span>{% trans "Help Center" %}</span>
+                </a>
+            </li>
+
+        <!-- Divider -->
+        {#      <hr class="sidebar-divider d-none d-md-block">#}
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        {#      <div class="text-center d-none d-md-inline">#}
+        {#        <button class="rounded-circle border-0" id="sidebarToggle"></button>#}
+        {#      </div>#}
+
+      </ul>
+    </div>
+  </nav>
+  <!-- End of Sidebar -->
+
+
+{% block extra_javascript %}
+    <script>
+      $(document).ready(function () {
+
+        $('.navbar_toggle_button').click(function(){
+            toggle_sidebar()
+        });
+
+        $(window).on('resize', function(){
+            adjust_sidebar()
+        });
+
+      });
+
+      function toggle_sidebar(){
+        if($('#navbarToggler').hasClass('show')){
+            $('.navbar_toggle_button span').removeClass('fa-angle-left');
+            $('.navbar_toggle_button span').addClass('fa-angle-right');
+            $('#content-wrapper').attr('style','margin-left: 0rem !important')
+        }else{
+            $('.navbar_toggle_button span').removeClass('fa-angle-right');
+            $('.navbar_toggle_button span').addClass('fa-angle-left');
+            $('#content-wrapper').attr('style','margin-left: 4rem !important')
+        }
+      }
+
+      function adjust_sidebar(){
+        if($(window).width() > 991.98 ){
+            $('#content-wrapper').attr('style','margin-left: 5.5rem !important')
+        }else{
+            if(!$('#navbarToggler').hasClass('show')){
+                $('.navbar_toggle_button span').removeClass('fa-angle-left');
+                $('.navbar_toggle_button span').addClass('fa-angle-right');
+                $('#content-wrapper').attr('style','margin-left: 0rem !important')
+            }else{
+                $('.navbar_toggle_button span').removeClass('fa-angle-right');
+                $('.navbar_toggle_button span').addClass('fa-angle-left');
+                $('#content-wrapper').attr('style','margin-left: 4rem !important')
+            }
+        }
+      }
+
+    </script>
+{% endblock extra_javascript %}
