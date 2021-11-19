@@ -39,3 +39,31 @@ class Plain_Carton_Line_Item(models.Model):
     sku_obj = models.ForeignKey(SKU, on_delete=models.SET_NULL, null=True, default=None)
     pcs_per_carton = models.PositiveIntegerField(default=0)
 
+
+# Example output of class:
+# {
+#     "amazon.de": {
+#         "source_warehouses": {
+#             1 : {
+#                 "carton_qty_for_matrix": 15,
+#                 "skus_that_need_to_be_send": {
+#                     1 : {
+#                         "plain_carton_line_items": {
+#                             123: {"id": 123, "qty_cartons_in_plan": 3},
+#                             456: {"id": 456, "qty_cartons_in_plan": 6},
+#                         }
+#                     },
+#                     2 : {
+#                         "plain_carton_line_items": {
+#                             789: {"id": 789, "qty_cartons_in_plan": 5},
+#                             845: {"id": 845, "qty_cartons_in_plan": 1},
+#                         }
+#                     },
+#                     ...
+#                 },
+#             ...
+#             }
+#         }
+#     },
+#     ...
+# }
