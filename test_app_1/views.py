@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from test_app_1.models import Warehouse
+from test_app_1.services import FBASendInSuggestionService
 
 
 def index(request):
@@ -27,13 +28,18 @@ def ajax_get_table_data(request):
     }
 
     if action == "dt_sugg_fba_send_ins":
+        suggestions = FBASendInSuggestionService(amazon_fba_warehouse_priority)
         warehouses = Warehouse.objects.all()
         for wh in warehouses:
             response_dict.append({
                 "warehouse_id": wh.id,
                 "warehouse": wh.warehouse_name,
-                "amazon_de": 0,
-                "amazon_fr": 1,
+                ###
+                # 6. Aggregated results values should be able to fill the correct values in the Matrix in the
+                # screenshot (Front End)
+                ###
+                "amazon_de": suggestions.domain_warehouse_suggestion('amazon.de', wh),
+                "amazon_fr": suggestions.domain_warehouse_suggestion('amazon.fr', wh),
 
             })
 

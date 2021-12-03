@@ -48,6 +48,11 @@ class Plain_Carton_Line_Item(models.Model):
         return self.purchase_order.warehouse
 
     def calculate_ideal_cartons_to_fulfill_pcli(self, required_pcs_fba_send_in):
+        """
+        2. Only the required amount of pcs should be sourced, not more
+        Exception: if a carton has 10 pcs and 1 pcs is required, the carton should be added
+        anyway
+        """
         return math.ceil(float(required_pcs_fba_send_in) / float(self.pcs_per_carton))
 
     def satisfies_required_cartons(self, ideal_cartons_to_fulfill_pcli):
@@ -63,6 +68,9 @@ class Plain_Carton_Line_Item(models.Model):
         Suggest send in amount for specific domain name / country based on current cartons_left_cached.
         If min cartons to fulfill PCLI can be satisfied, remove amount from cartons_left_cached and
         return as suggested send in amount.  Otherwise remove and return all remaining cartons_left_cached.
+
+        4. Only the available carton amount “cartons_left_cached” can be sourced, not more than
+        that. (One carton cannot be sent to Germany and France at the same time)
         """
         required_pcs = self.sku_obj.__getattribute__(attribute_name)
         ideal_carton_amt = self.calculate_ideal_cartons_to_fulfill_pcli(required_pcs)
