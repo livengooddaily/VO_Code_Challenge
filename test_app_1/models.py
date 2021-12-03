@@ -1,3 +1,5 @@
+import math
+
 from django.db import models
 
 # Create your models here.
@@ -41,6 +43,34 @@ class Plain_Carton_Line_Item(models.Model):
     pcs_per_carton = models.PositiveIntegerField(default=0)
     objects = PlainCartonLineItemManager()
 
+    @property
+    def warehouse(self):
+        return self.purchase_order.warehouse
+
+    def calculate_ideal_cartons_to_fulfill_pcli(self, required_pcs_fba_send_in):
+        return math.ceil(float(required_pcs_fba_send_in) / float(self.pcs_per_carton))
+
+    def satisfies_required_cartons(self, ideal_cartons_to_fulfill_pcli):
+        return True if ideal_cartons_to_fulfill_pcli <= self.cartons_left_cached else False
+
+    def use_all_cartons_left_cached(self):
+        result = self.cartons_left_cached
+        self.cartons_left_cached = 0
+        return result
+
+    def calculate_suggested_send_in_amount(self, attribute_name):
+        """
+        Suggest send in amount for specific domain name / country based on current cartons_left_cached.
+        If min cartons to fulfill PCLI can be satisfied, remove amount from cartons_left_cached and
+        return as suggested send in amount.  Otherwise remove and return all remaining cartons_left_cached.
+        """
+        required_pcs = self.sku_obj.__getattribute__(attribute_name)
+        ideal_carton_amt = self.calculate_ideal_cartons_to_fulfill_pcli(required_pcs)
+        if self.satisfies_required_cartons(ideal_carton_amt):
+            self.cartons_left_cached -= ideal_carton_amt
+            return ideal_carton_amt
+        else:
+            return self.use_all_cartons_left_cached()
 
 # Example output of class:
 # {
@@ -48,7 +78,7 @@ class Plain_Carton_Line_Item(models.Model):
 #         "source_warehouses": {
 #             1 : {
 #                 "carton_qty_for_matrix": 15,
-#                 "skus_that_need_to_be_send": {
+#                 "skus_that_need_to_be_send": { -- skus_to_send or skus_that_need_to_be_sent would be grammatically correct
 #                     1 : {
 #                         "plain_carton_line_items": {
 #                             123: {"id": 123, "qty_cartons_in_plan": 3},

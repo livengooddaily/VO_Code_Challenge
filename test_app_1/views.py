@@ -13,7 +13,18 @@ def index(request):
 def ajax_get_table_data(request):
     response_dict = []
     action = request.POST.get('action', '')
+    ###
+    # 5. Germany has priority over France. Pcs requirements of Germany need to be fulfilled first
+    # 7. Dynamic Implementation. Should work for different values and constellations
+    # Uncertain how the prioritization should or does occur.  Storing required_pcs_fba_send_in
+    # as an SKU attribute requires some sort of mapping to the ranking for it to be dynamic.
+    # Implementation uses dictionary for ranking and maps domains to SKU attributes.
+    ###
 
+    amazon_fba_warehouse_priority = {
+        0: "amazon.de",
+        1: "amazon.fr"
+    }
 
     if action == "dt_sugg_fba_send_ins":
         warehouses = Warehouse.objects.all()

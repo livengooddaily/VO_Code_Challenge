@@ -15,7 +15,7 @@ class AmazonFBASendInSuggestionTestCase(TestCase):
     Ideal Cartons     (IC) = ceil(RPFSI/CLC)
     Remaining Cartons (RC) = (CLC - IC) if satisfiable else 0
     Suggested Cartons (SC) = IC if CLC >= IC else RC
-    Total = sum(SC for germany and france)
+    Total = sum(SC per source_warehouse)
     -----------------------------------------------------------------------------------
     PO's with status "received":
     WH | POs     | PCLIs                                                         | Subtotal | Total
@@ -41,7 +41,7 @@ class AmazonFBASendInSuggestionTestCase(TestCase):
             3: {"amazon_de": 5, "amazon_fr": 3},
         }
 
-    def test_germany(self):
+    def test_amazon_fba_send_in_suggestions(self):
         response = self.client.post(
             path='/ajax_get_table_data/',
             data=self.POST_data
