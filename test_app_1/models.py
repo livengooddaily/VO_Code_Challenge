@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+from test_app_1.managers import PlainCartonLineItemManager
 
 
 class SKU(models.Model):
@@ -38,6 +39,7 @@ class Plain_Carton_Line_Item(models.Model):
     cartons_left_cached = models.IntegerField(null=True, default=None)
     sku_obj = models.ForeignKey(SKU, on_delete=models.SET_NULL, null=True, default=None)
     pcs_per_carton = models.PositiveIntegerField(default=0)
+    objects = PlainCartonLineItemManager()
 
 
 # Example output of class:
